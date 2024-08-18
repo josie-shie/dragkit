@@ -48,13 +48,11 @@ function TextInput({
     setText(value);
   };
   return (
-    <div>
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => handleUpdate(e.target.value)}
-      />
-    </div>
+    <input
+      type="text"
+      value={text}
+      onChange={(e) => handleUpdate(e.target.value)}
+    />
   );
 }
 
