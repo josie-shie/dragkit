@@ -1,12 +1,15 @@
 import { Dispatch, SetStateAction } from "react";
 import style from "./dragArea.module.scss";
-import { type ImgData } from "./dragKit";
+import { type ImgData, type SelectedType } from "./dragKit";
 
 function Header() {
   return (
-    <div className={style.header}>
-      This is a fixed Header, no need to modify
-    </div>
+    <>
+      <div className={style.header}>
+        This is a fixed Header, no need to modify
+      </div>
+      <div className={style.placeHoder} />
+    </>
   );
 }
 
@@ -17,39 +20,68 @@ function ShowEmpty() {
 function DisPlayContent({
   text,
   imageData,
+  handleDrop,
+  handleDragOver,
+  selectedType,
+  setSelectedType,
 }: {
-  text: string;
-  imageData: ImgData;
+  imageData?: ImgData;
+  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+  text?: string;
+  selectedType: SelectedType;
+  setSelectedType: Dispatch<SetStateAction<SelectedType>>;
 }) {
   return (
-    <div className={style.disPlayContent}>
-      <div
-        className={style.imgbox}
-        style={{ height: imageData.height, width: imageData.width }}
-      >
-        <img src={imageData.path} alt="item photo" />
+    <div
+      className={style.disPlayContent}
+      onDragOver={handleDrop}
+      onDrop={handleDragOver}
+    >
+      <div className={selectedType === "image" ? style.imgSelectedBox : ""}>
+        {imageData && (
+          <div
+            className={style.imgbox}
+            style={{ height: imageData.height, width: imageData.width }}
+          >
+            <img src={imageData.path} alt="item photo" />
+          </div>
+        )}
       </div>
-      <div>{text}</div>
+      <div className={selectedType === "text" ? style.imgSelectedBox : ""}>
+        {text && <div>{text}</div>}
+      </div>
     </div>
   );
 }
 
 function DragArea({
-  selectImg,
-  setSelectImg,
+  handleDrop,
+  handleDragOver,
+  selectedType,
+  setSelectedType,
   text,
   imageData,
 }: {
+  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   text?: string;
-  selectImg: boolean;
-  setSelectImg: Dispatch<SetStateAction<boolean>>;
+  selectedType: SelectedType;
+  setSelectedType: Dispatch<SetStateAction<SelectedType>>;
   imageData?: ImgData;
 }) {
   return (
     <div className={style.dragArea}>
       <Header />
-      {text && imageData ? (
-        <DisPlayContent text={text} imageData={imageData} />
+      {text || imageData ? (
+        <DisPlayContent
+          text={text}
+          imageData={imageData}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+          handleDrop={handleDrop}
+          handleDragOver={handleDragOver}
+        />
       ) : (
         <ShowEmpty />
       )}

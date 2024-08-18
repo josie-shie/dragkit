@@ -9,23 +9,52 @@ export type ImgData = {
   path: string;
 };
 
+export type SelectedType = "image" | "none" | "text";
+
+export type DraggableItemProps = {
+  event: React.DragEvent<HTMLDivElement>;
+  item: string;
+  type: SelectedType;
+};
+
 function Container() {
-  const [selectImg, setSelectImg] = useState(false);
+  const [selectedType, setSelectedType] = useState<SelectedType>("none");
   const [imageData, setImageData] = useState<ImgData>();
   const [text, setText] = useState<string>();
+
+  const handleDragStart = ({ event, item, type }: DraggableItemProps) => {
+    if (type === "image") setImageData({ width: 300, height: 200, path: item });
+    if (type === "text") setText(item);
+  };
+
+  // 處理拖動目標區域
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
+  // 處理放置
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("text/plain");
+    console.log(`Dropped item: ${data}`);
+    // 在這裡你可以處理放置後的邏輯
+  };
 
   return (
     <div className={style.dragKit}>
       <InputArea
-        selectImg={selectImg}
+        handleDragStart={handleDragStart}
+        selectedType={selectedType}
         text={text}
         setText={setText}
         imageData={imageData}
         setImageData={setImageData}
       />
       <DragArea
-        selectImg={selectImg}
-        setSelectImg={setSelectImg}
+        handleDragOver={handleDragOver}
+        handleDrop={handleDrop}
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
         imageData={imageData}
         text={text}
       />
