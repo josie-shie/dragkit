@@ -38,7 +38,11 @@ function DisPlayContent({
       onDragOver={handleDrop}
       onDrop={handleDragOver}
     >
-      <div className={selectedType === "image" ? style.imgSelectedBox : ""}>
+      <div
+        className={style.selectedStyle}
+        data-hover-text={"圖片元件"}
+        onClick={() => setSelectedType("image")}
+      >
         {imageData && (
           <div
             className={style.imgbox}
@@ -48,9 +52,15 @@ function DisPlayContent({
           </div>
         )}
       </div>
-      <div className={selectedType === "text" ? style.imgSelectedBox : ""}>
-        {text && <div>{text}</div>}
-      </div>
+      {text && (
+        <div
+          data-hover-text={"文字元件"}
+          className={style.selectedStyle}
+          onClick={() => setSelectedType("text")}
+        >
+          {text}
+        </div>
+      )}
     </div>
   );
 }
