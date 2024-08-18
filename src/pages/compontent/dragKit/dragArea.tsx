@@ -14,26 +14,45 @@ function ShowEmpty() {
   return <div className={style.showEmpty}>Empty</div>;
 }
 
-function DisPlayContent() {
-  return <div className={style.disPlayContent}>Empty</div>;
+function DisPlayContent({
+  text,
+  imageData,
+}: {
+  text: string;
+  imageData: ImgData;
+}) {
+  return (
+    <div className={style.disPlayContent}>
+      <div
+        className={style.imgbox}
+        style={{ height: imageData.height, width: imageData.width }}
+      >
+        <img src={imageData.path} alt="item photo" />
+      </div>
+      <div>{text}</div>
+    </div>
+  );
 }
 
 function DragArea({
   selectImg,
   setSelectImg,
+  text,
   imageData,
-  setImageData,
 }: {
+  text?: string;
   selectImg: boolean;
   setSelectImg: Dispatch<SetStateAction<boolean>>;
   imageData?: ImgData;
-  setImageData: (imageData: ImgData) => void;
 }) {
   return (
     <div className={style.dragArea}>
       <Header />
-      {/* {<DisPlayContent/>:<ShowEmpty/>} */}
-      <ShowEmpty />
+      {text && imageData ? (
+        <DisPlayContent text={text} imageData={imageData} />
+      ) : (
+        <ShowEmpty />
+      )}
     </div>
   );
 }

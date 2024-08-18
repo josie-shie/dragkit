@@ -19,6 +19,15 @@ function TextInput() {
   );
 }
 
+function DragButton() {
+  return (
+    <div className={style.dragButton}>
+      <div className={style.button}>圖片元件</div>
+      <div className={style.button}>文字元件</div>
+    </div>
+  );
+}
+
 function InputArea({
   selectImg,
   text,
@@ -34,7 +43,13 @@ function InputArea({
 }) {
   return (
     <div className={style.inputArea}>
-      {selectImg ? <ImgInputGroup /> : <TextInput />}
+      {!text && !imageData ? (
+        <DragButton />
+      ) : selectImg ? (
+        <ImgInputGroup />
+      ) : (
+        <TextInput />
+      )}
     </div>
   );
 }

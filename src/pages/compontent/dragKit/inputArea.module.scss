@@ -1,7 +1,22 @@
-.inputArea{
-  width: 40%;
+.inputArea {
+  width: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid #000;
+  border-right: 1px solid #242424;
+}
+
+.dragButton {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  .button {
+    width: 100%;
+    border: 1px solid #242424;
+    color: #000;
+    text-align: center;
+    padding: 10px 0;
+  }
 }

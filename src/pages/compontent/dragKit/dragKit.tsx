@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export type ImgData = {
   width: number;
-  heigth: number;
+  height: number;
   path: string;
 };
 
@@ -13,6 +13,7 @@ function Container() {
   const [selectImg, setSelectImg] = useState(false);
   const [imageData, setImageData] = useState<ImgData>();
   const [text, setText] = useState<string>();
+
   return (
     <div className={style.dragKit}>
       <InputArea
@@ -26,7 +27,7 @@ function Container() {
         selectImg={selectImg}
         setSelectImg={setSelectImg}
         imageData={imageData}
-        setImageData={setImageData}
+        text={text}
       />
     </div>
   );
