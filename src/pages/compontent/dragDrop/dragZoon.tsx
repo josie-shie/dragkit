@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import style from "./dropArea.module.scss";
+import { Dispatch, SetStateAction, useState } from "react";
+import style from "./dragZoon.module.scss";
 import { type ImgData, type SelectedType } from "./dragDrop";
 
 function Header() {
@@ -20,12 +20,10 @@ function ShowEmpty() {
 function DisPlayContent({
   text,
   imageData,
-  selectedType,
   setSelectedType,
 }: {
   imageData?: ImgData;
   text?: string;
-  selectedType: SelectedType;
   setSelectedType: Dispatch<SetStateAction<SelectedType>>;
 }) {
   return (
@@ -57,40 +55,57 @@ function DisPlayContent({
   );
 }
 
-function DragArea({
+function DragZoon({
   handleDrop,
-  handleDragOver,
-  selectedType,
   setSelectedType,
   text,
   imageData,
 }: {
   handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
-  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   text?: string;
   selectedType: SelectedType;
   setSelectedType: Dispatch<SetStateAction<SelectedType>>;
   imageData?: ImgData;
 }) {
+  const [showDragOverBg, setShowDrageOverBg] = useState(false);
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setShowDrageOverBg(true);
+  };
+
+  const handleDragleave = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setShowDrageOverBg(false);
+  };
+
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    setShowDrageOverBg(false);
+    handleDrop(e);
+  };
+
   return (
-    <div
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-      className={style.dropArea}
-    >
-      <Header />
-      {text || imageData ? (
-        <DisPlayContent
-          text={text}
-          imageData={imageData}
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-        />
-      ) : (
-        <ShowEmpty />
-      )}
-    </div>
+      <div
+        onDrop={(e) => {
+          onDrop(e);
+        }}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragleave}
+        className={`${style.dragZoon} ${showDragOverBg && style.mask}`}
+        
+      >
+        <Header />
+        {text || imageData ? (
+          <DisPlayContent
+            text={text}
+            imageData={imageData}
+            setSelectedType={setSelectedType}
+          />
+        ) : (
+          <ShowEmpty />
+        )}
+      </div>
   );
 }
 
-export default DragArea;
+export default DragZoon;
