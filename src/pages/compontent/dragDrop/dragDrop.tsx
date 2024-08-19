@@ -47,8 +47,6 @@ function DragDrop() {
         setImageData={setImageData}
       />
       <DropArea
-        // handleDragOver={handleDragOver}
-        // handleDragleave={handleDragleave}
         handleDrop={handleDrop}
         selectedType={selectedType}
         setSelectedType={setSelectedType}
