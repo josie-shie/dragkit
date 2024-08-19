@@ -3,7 +3,7 @@ import {
   type ImgData,
   type DraggableItemProps,
   type SelectedType,
-} from "./dragKit";
+} from "./dragDrop";
 
 function ImgInputGroup({
   imageData,

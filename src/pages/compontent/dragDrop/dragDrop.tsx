@@ -1,6 +1,6 @@
 import InputArea from "./inputArea";
-import DragArea from "./dragArea";
-import style from "./dragKit.module.scss";
+import DropArea from "./dropArea";
+import style from "./dragDrop.module.scss";
 import { useState } from "react";
 
 export type ImgData = {
@@ -17,31 +17,33 @@ export type DraggableItemProps = {
   type: SelectedType;
 };
 
-function Container() {
+function DragDrop() {
   const [selectedType, setSelectedType] = useState<SelectedType>("none");
   const [imageData, setImageData] = useState<ImgData>();
   const [text, setText] = useState<string>();
+  const [showDragOverBg, setShowDrageOverBg] = useState(false);
 
   const handleDragStart = ({ event, item, type }: DraggableItemProps) => {
-    if (type === "image") setImageData({ width: 300, height: 200, path: item });
-    if (type === "text") setText(item);
+    event.dataTransfer.setData("text/item", item);
+    event.dataTransfer.setData("text/type", type);
   };
 
-  // 處理拖動目標區域
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    console.log(222);
   };
 
-  // 處理放置
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const data = event.dataTransfer.getData("text/plain");
-    console.log(`Dropped item: ${data}`);
-    // 在這裡你可以處理放置後的邏輯
+    const item = event.dataTransfer.getData("text/item");
+    const type = event.dataTransfer.getData("text/type");
+    type === "image"
+      ? setImageData({ width: 300, height: 200, path: item })
+      : setText(item);
   };
 
   return (
-    <div className={style.dragKit}>
+    <div className={style.dragDrop}>
       <InputArea
         handleDragStart={handleDragStart}
         selectedType={selectedType}
@@ -50,7 +52,7 @@ function Container() {
         imageData={imageData}
         setImageData={setImageData}
       />
-      <DragArea
+      <DropArea
         handleDragOver={handleDragOver}
         handleDrop={handleDrop}
         selectedType={selectedType}
@@ -62,4 +64,4 @@ function Container() {
   );
 }
 
-export default Container;
+export default DragDrop;

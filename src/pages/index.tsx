@@ -1,5 +1,5 @@
-import DragKit from "./compontent/dragKit/dragKit";
+import DragDrop from "./compontent/dragDrop/dragDrop";
 
 export default function Home() {
-  return <DragKit />;
+  return <DragDrop />;
 }

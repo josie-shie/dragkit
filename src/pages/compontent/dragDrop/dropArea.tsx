@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import style from "./dragArea.module.scss";
-import { type ImgData, type SelectedType } from "./dragKit";
+import style from "./dropArea.module.scss";
+import { type ImgData, type SelectedType } from "./dragDrop";
 
 function Header() {
   return (
@@ -20,24 +20,16 @@ function ShowEmpty() {
 function DisPlayContent({
   text,
   imageData,
-  handleDrop,
-  handleDragOver,
   selectedType,
   setSelectedType,
 }: {
   imageData?: ImgData;
-  handleDrop: (event: React.DragEvent<HTMLDivElement>) => void;
-  handleDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
   text?: string;
   selectedType: SelectedType;
   setSelectedType: Dispatch<SetStateAction<SelectedType>>;
 }) {
   return (
-    <div
-      className={style.disPlayContent}
-      onDragOver={handleDrop}
-      onDrop={handleDragOver}
-    >
+    <div className={style.disPlayContent}>
       <div
         className={style.selectedStyle}
         data-hover-text={"圖片元件"}
@@ -81,7 +73,11 @@ function DragArea({
   imageData?: ImgData;
 }) {
   return (
-    <div className={style.dragArea}>
+    <div
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+      className={style.dropArea}
+    >
       <Header />
       {text || imageData ? (
         <DisPlayContent
@@ -89,8 +85,6 @@ function DragArea({
           imageData={imageData}
           selectedType={selectedType}
           setSelectedType={setSelectedType}
-          handleDrop={handleDrop}
-          handleDragOver={handleDragOver}
         />
       ) : (
         <ShowEmpty />
