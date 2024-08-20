@@ -5,6 +5,12 @@
   border-right: 1px solid #242424;
 }
 
+.imageInputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .dragButton {
   display: flex;
   flex-direction: column;

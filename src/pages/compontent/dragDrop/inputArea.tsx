@@ -12,21 +12,34 @@ function ImgInputGroup({
   imageData: ImgData;
   setImageData: (imageData: ImgData) => void;
 }) {
-  const handleUpdate = (key: string, value: number | string) => {
-    setImageData({ ...imageData, [key]: value });
+  const handleUpdate = (key: string, value: string) => {
+    setImageData({
+      ...imageData,
+      [key]: value,
+    });
+  };
+  const formatNumber = (value: string) => {
+    if (value.length > 1 && value.startsWith("0")) {
+      value = value.substring(1);
+    }
+    return value;
   };
 
   return (
-    <div>
+    <div className={style.imageInputBox}>
       <input
-        type="number"
         value={imageData.width}
-        onChange={(e) => handleUpdate("width", Number(e.target.value))}
+        onChange={(e) => {
+          const value = formatNumber(e.target.value);
+          handleUpdate("width", value);
+        }}
       />
       <input
-        type="number"
         value={imageData.height}
-        onChange={(e) => handleUpdate("height", Number(e.target.value))}
+        onChange={(e) => {
+          const value = formatNumber(e.target.value);
+          handleUpdate("height", value);
+        }}
       />
       <input
         type="text"
